@@ -11,6 +11,14 @@ from views.checkout import render_checkout
 from views.order_history import render_order_history
 from config import TABS
 
+# from neo4j import GraphDatabase
+# from views.suggestions_neo4j_test3 import get_product_recommendation
+
+# Neo4j Connection - Replace with your credentials
+NEO4J_URI = "neo4j+s://5e56b2da.databases.neo4j.io"
+NEO4J_USER = "neo4j"
+NEO4J_PASSWORD = "h-jFkG_yO2J_fyusi1QPy6l80eSD_o-dD6tLqC20ePM"
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -19,7 +27,7 @@ def init_session():
     """Initialize session state variables"""
     if "cart_id" not in st.session_state:
         st.session_state.cart_id = str(uuid.uuid4())
-    if "current_tab" not in st.session_state or st.session_state.current_tab not in TABS:
+    if "current_tab" not in st.session_state:
         st.session_state.current_tab = "Home"
 
 def render_home():
@@ -68,11 +76,7 @@ def main():
         cart_count = 0
     
     # Render navigation
-    selected_tab = render_navbar(cart_count)
-    if selected_tab != st.session_state.current_tab:
-        st.session_state.current_tab = selected_tab
-        st.rerun()
-
+    render_navbar(cart_count)
     
     # Render current tab
     try:
@@ -83,7 +87,7 @@ def main():
             render_products(products, cart)
             
         elif st.session_state.current_tab == "Cart":
-            render_cart(cart, product_map)
+            render_cart(cart, product_map, products)
             
         elif st.session_state.current_tab == "Checkout":
             render_checkout(cart, product_store, product_map)
