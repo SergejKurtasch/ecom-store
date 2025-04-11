@@ -28,8 +28,7 @@ class Cart:
             key = self._key(cart_id)
 
             # Check if the cart exists to set TTL only during creation
-            if not self.r.exists(key):
-                self.r.expire(key, 259200)  # Set TTL for 3 days
+            self.r.expire(key, 259200)  # Set TTL for 3 days
                 
             current_qty = self.r.hget(key, product_name) or 0
             new_qty = int(current_qty) + qty
