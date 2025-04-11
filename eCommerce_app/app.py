@@ -19,7 +19,7 @@ def init_session():
     """Initialize session state variables"""
     if "cart_id" not in st.session_state:
         st.session_state.cart_id = str(uuid.uuid4())
-    if "current_tab" not in st.session_state:
+    if "current_tab" not in st.session_state or st.session_state.current_tab not in TABS:
         st.session_state.current_tab = "Home"
 
 def render_home():
@@ -68,7 +68,11 @@ def main():
         cart_count = 0
     
     # Render navigation
-    render_navbar(cart_count)
+    selected_tab = render_navbar(cart_count)
+    if selected_tab != st.session_state.current_tab:
+        st.session_state.current_tab = selected_tab
+        st.rerun()
+
     
     # Render current tab
     try:
