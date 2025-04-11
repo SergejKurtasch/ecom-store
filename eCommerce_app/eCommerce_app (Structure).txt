@@ -1,0 +1,14 @@
+ecommerce_app/
+├── app.py                 # Main application
+├── config.py              # Configuration (unchanged)
+├── models/
+│   ├── __init__.py        # Empty file
+│   ├── product_store.py   # ProductStore class
+│   └── cart.py           # Cart class
+└── views/
+    ├── __init__.py        # Empty file
+    ├── navbar.py         # Navigation UI
+    ├── products.py       # Products page
+    ├── cart.py          # Cart page
+    ├── checkout.py      # Checkout page
+    └── order_history.py # Order history
