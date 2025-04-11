@@ -4,11 +4,15 @@ from config import TABS
 def render_navbar(cart_count: int):
     """Render the navigation bar with cart count"""
     col1, col2 = st.columns([4, 1])
+
+    current_tab = st.session_state.get("current_tab", "Home")
+    current_index = TABS.index(current_tab) if current_tab in TABS else 0
+
     with col1:
-        st.session_state.current_tab = st.radio(
+        selected_tab = st.radio(
             "Navigation", 
             TABS,  # Use TABS from config
-            index=TABS.index(st.session_state.current_tab),
+            index=current_index,
             horizontal=True,
             label_visibility="collapsed"
         )
@@ -24,3 +28,5 @@ def render_navbar(cart_count: int):
             </span>
         </div>
         """, unsafe_allow_html=True)
+
+    return selected_tab
